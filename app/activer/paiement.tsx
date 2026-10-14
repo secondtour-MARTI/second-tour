@@ -1,12 +1,12 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
-import { EmbeddedCheckout, EmbeddedCheckoutProvider } from "@stripe/react-stripe-js";
 import { PLANS, type PlanId } from "@/lib/plans";
 
-const clePublique = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
-const stripePromise = clePublique ? loadStripe(clePublique) : null;
+const clePublique = (process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? "").trim();
+const cleValide = clePublique.startsWith("pk_");
+const stripePromise = cleValide ? loadStripe(clePublique) : null;
 
 const ORDRE: PlanId[] = ["essentiel", "pro", "annuel"];
 
@@ -15,22 +15,55 @@ type Props = { params: { m: string; c: string; r: string } };
 export default function Paiement({ params }: Props) {
   const [plan, setPlan] = useState<PlanId>("pro");
   const [erreur, setErreur] = useState<string | null>(null);
+  const [chargement, setChargement] = useState(true);
+  const conteneur = useRef<HTMLDivElement>(null);
 
-  const fetchClientSecret = useCallback(async () => {
+  // Monte le formulaire de paiement Stripe directement dans la page, pour la formule choisie.
+  useEffect(() => {
+    if (!stripePromise) return;
+    let annule = false;
+    let instance: { destroy: () => void } | null = null;
     setErreur(null);
-    const rep = await fetch("/api/checkout", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ plan, ...params }),
-    });
-    const data = await rep.json().catch(() => ({}));
-    if (!rep.ok || !data.clientSecret) {
-      const msg = data.erreur ?? "Le paiement n'a pas pu démarrer. Réessaie dans un instant.";
-      setErreur(msg);
-      throw new Error(msg);
-    }
-    return data.clientSecret as string;
-  }, [plan, params]);
+    setChargement(true);
+
+    (async () => {
+      try {
+        const stripe = await stripePromise;
+        if (!stripe) throw new Error("Stripe n'a pas pu se charger. Vérifie ta connexion et recharge la page.");
+        const checkout = await stripe.initEmbeddedCheckout({
+          fetchClientSecret: async () => {
+            const rep = await fetch("/api/checkout", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ plan, ...params }),
+            });
+            const data = await rep.json().catch(() => ({}));
+            if (!rep.ok || !data.clientSecret) {
+              throw new Error(data.erreur ?? "Le paiement n'a pas pu démarrer. Réessaie dans un instant.");
+            }
+            return data.clientSecret as string;
+          },
+        });
+        if (annule) {
+          checkout.destroy();
+          return;
+        }
+        instance = checkout;
+        if (conteneur.current) checkout.mount(conteneur.current);
+        setChargement(false);
+      } catch (e) {
+        if (!annule) {
+          setChargement(false);
+          setErreur(e instanceof Error ? e.message : "Le paiement n'a pas pu démarrer. Réessaie dans un instant.");
+        }
+      }
+    })();
+
+    return () => {
+      annule = true;
+      instance?.destroy();
+    };
+  }, [plan, params.m, params.c, params.r]); // eslint-disable-line react-hooks/exhaustive-deps
 
   function choisir(id: PlanId) {
     setPlan(id);
@@ -90,10 +123,11 @@ export default function Paiement({ params }: Props) {
             Le paiement n&apos;est pas encore configuré. Reviens dans quelques minutes.
           </p>
         ) : (
-          <div className="min-h-[420px] border-[3px] border-encre bg-white p-1">
-            <EmbeddedCheckoutProvider key={plan} stripe={stripePromise} options={{ fetchClientSecret }}>
-              <EmbeddedCheckout />
-            </EmbeddedCheckoutProvider>
+          <div className="relative min-h-[420px] border-[3px] border-encre bg-white p-1">
+            {chargement && !erreur && (
+              <p className="absolute inset-x-0 top-10 text-center text-gris">Chargement du paiement sécurisé…</p>
+            )}
+            <div ref={conteneur} />
           </div>
         )}
         {erreur && (
