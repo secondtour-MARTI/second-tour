@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { stripe } from "@/lib/stripe";
+import CreerAcces from "./creer-acces";
 
 export const metadata: Metadata = { title: "Bienvenue — Second Tour", robots: { index: false } };
 
@@ -45,12 +46,16 @@ export default async function Bienvenue({ searchParams }: Props) {
       <div className="etiquette mx-auto w-full max-w-md bg-papier p-6">
         <p className="font-titre text-3xl leading-tight text-vert">C&apos;est fait. Bienvenue !</p>
         <p className="mt-3">
-          Ton abonnement Second Tour est actif{email ? ` pour ${email}` : ""}. Tu vas recevoir un reçu par email.
+          Ton abonnement Second Tour est actif. Tu vas recevoir un reçu par email.
         </p>
-        <p className="mt-3 text-gris">Ton espace pour ajouter tes clients s&apos;ouvre juste après cette étape.</p>
-        <Link href="/" className="bouton-pouce mt-6 flex items-center justify-center border-[3px] border-encre bg-jaune font-titre text-vert">
-          Retour à l&apos;accueil
-        </Link>
+        <p className="mt-3 font-semibold">Dernière étape : choisis ton mot de passe pour ouvrir ton espace.</p>
+        <CreerAcces sessionId={session_id!} email={email} />
+        <p className="mt-4 text-center text-sm text-gris">
+          Déjà un accès ?{" "}
+          <Link href="/connexion" className="font-semibold text-vert underline">
+            Me connecter
+          </Link>
+        </p>
       </div>
     </main>
   );

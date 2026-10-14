@@ -10,6 +10,7 @@ export const METIERS = {
     rappel: "11 mois après le passage",
     rappelCourt: "presque un an",
     panier: 180,
+    delaiJours: 335,
   },
   pneus: {
     libelle: "Pneus",
@@ -20,6 +21,7 @@ export const METIERS = {
     rappel: "5 mois après le passage, avant la saison",
     rappelCourt: "6 mois",
     panier: 120,
+    delaiJours: 150,
   },
   lavage: {
     libelle: "Lavage & esthétique",
@@ -30,6 +32,7 @@ export const METIERS = {
     rappel: "4 semaines après le passage",
     rappelCourt: "un mois",
     panier: 35,
+    delaiJours: 28,
   },
   ct: {
     libelle: "Contrôle technique",
@@ -40,6 +43,7 @@ export const METIERS = {
     rappel: "23 mois après le passage",
     rappelCourt: "presque deux ans",
     panier: 80,
+    delaiJours: 700,
   },
 } as const;
 
