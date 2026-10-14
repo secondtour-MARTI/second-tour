@@ -7,6 +7,8 @@ export const METIERS = {
     prestation: "vidange",
     unePrestation: "une vidange",
     delai: "12 mois",
+    rappel: "11 mois après le passage",
+    rappelCourt: "presque un an",
     panier: 180,
   },
   pneus: {
@@ -15,6 +17,8 @@ export const METIERS = {
     prestation: "changement de pneus",
     unePrestation: "un changement de pneus",
     delai: "6 mois",
+    rappel: "5 mois après le passage, avant la saison",
+    rappelCourt: "6 mois",
     panier: 120,
   },
   lavage: {
@@ -23,6 +27,8 @@ export const METIERS = {
     prestation: "lavage",
     unePrestation: "un lavage",
     delai: "1 mois",
+    rappel: "4 semaines après le passage",
+    rappelCourt: "un mois",
     panier: 35,
   },
   ct: {
@@ -31,6 +37,8 @@ export const METIERS = {
     prestation: "contrôle technique",
     unePrestation: "un contrôle technique",
     delai: "2 ans",
+    rappel: "23 mois après le passage",
+    rappelCourt: "presque deux ans",
     panier: 80,
   },
 } as const;
