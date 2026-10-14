@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Archivo_Black, Source_Sans_3 } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import Pied from "@/components/pied";
 import "./globals.css";
 
 const archivo = Archivo_Black({
@@ -44,7 +46,11 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr" className={`${archivo.variable} ${source.variable}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Pied />
+        <Analytics />
+      </body>
     </html>
   );
 }
