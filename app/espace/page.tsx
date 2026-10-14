@@ -69,14 +69,14 @@ export default async function Espace() {
         <div className="mt-5 grid grid-cols-2 gap-3">
           <div className="border-2 border-creme/40 p-3">
             <p className="font-titre text-3xl leading-none text-jaune">{nbRevenus}</p>
-            <p className="mt-1 text-sm">clients revenus</p>
+            <p className="mt-1 text-sm">{nbRevenus > 1 ? "clients revenus" : "client revenu"}</p>
           </div>
           <div className="border-2 border-creme/40 p-3">
             <p className="font-titre text-3xl leading-none text-jaune">{euros(chiffre)}</p>
             <p className="mt-1 text-sm">générés par les rappels</p>
           </div>
         </div>
-        <p className="mt-3 text-sm text-creme/75">{nbClients ?? 0} clients enregistrés au total.</p>
+        <p className="mt-3 text-sm text-creme/75">{nbClients ?? 0} {(nbClients ?? 0) > 1 ? "clients enregistrés" : "client enregistré"} au total.</p>
       </section>
 
       <div className="mx-auto max-w-xl space-y-10 px-5 pt-8">
