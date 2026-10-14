@@ -45,3 +45,24 @@ export function montant(v: FormDataEntryValue | null): number | null {
   const n = Number(v.replace(",", ".").replace(/[^\d.]/g, ""));
   return Number.isFinite(n) && n >= 0 && n < 100000 ? Math.round(n * 100) / 100 : null;
 }
+
+// Date de passage saisie (AAAA-MM-JJ) : ni dans le futur, ni plus vieille que 3 ans.
+export function lireDatePassage(v: FormDataEntryValue | null): string | null | "invalide" {
+  if (typeof v !== "string" || !v) return null;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(v)) return "invalide";
+  const d = new Date(v + "T12:00:00Z");
+  if (Number.isNaN(d.getTime())) return "invalide";
+  const maintenant = Date.now();
+  if (d.getTime() > maintenant + 86400000) return "invalide";
+  if (d.getTime() < maintenant - 3 * 365 * 86400000) return "invalide";
+  return v;
+}
+
+// Date du rappel = date du passage + délai. Si elle est déjà dépassée, le rappel part dès demain.
+export function dateRappel(datePassage: string, delaiJours: number) {
+  const d = new Date(datePassage + "T12:00:00Z");
+  d.setUTCDate(d.getUTCDate() + delaiJours);
+  const demain = dansNJours(1);
+  const iso = d.toISOString().slice(0, 10);
+  return iso < demain ? demain : iso;
+}

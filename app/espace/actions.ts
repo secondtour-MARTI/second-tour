@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { accesCourant } from "@/lib/acces";
 import { supabaseAdmin } from "@/lib/supabase/server";
 import { METIERS, type MetierId } from "@/lib/diagnostic";
-import { codeAleatoire, dansNJours, lireContact, montant, texteCourt } from "@/lib/outils";
+import { codeAleatoire, dateRappel, lireContact, lireDatePassage, montant, texteCourt } from "@/lib/outils";
 
 export type Etat = { ok: string | null; erreur: string | null };
 
@@ -53,6 +53,12 @@ export async function ajouterClient(_e: Etat, form: FormData): Promise<Etat> {
   }
   const prenom = texteCourt(form.get("prenom"), 40) || null;
   const prix = montant(form.get("montant"));
+  const datePassage = lireDatePassage(form.get("date_passage"));
+  if (datePassage === "invalide") {
+    return { ok: null, erreur: "La date du passage doit être aujourd'hui ou dans les 3 dernières années." };
+  }
+  const passageLe = datePassage ?? new Date().toISOString().slice(0, 10);
+  const rappelLe = dateRappel(passageLe, garage.delai_rappel_jours);
 
   const admin = supabaseAdmin();
   const { data: client, error } = await admin
@@ -68,13 +74,15 @@ export async function ajouterClient(_e: Etat, form: FormData): Promise<Etat> {
     client_id: client.id,
     prestation: metier && metier in METIERS ? METIERS[metier].prestation : null,
     montant: prix,
-    date_rappel: dansNJours(garage.delai_rappel_jours),
+    date_passage: passageLe,
+    date_rappel: rappelLe,
     code_offre: codeAleatoire(6),
   });
   if (errP) return { ok: null, erreur: "L'ajout a échoué. Réessaie." };
 
   revalidatePath("/espace");
-  return { ok: `${prenom ?? "Client"} ajouté. Le rappel partira tout seul au bon moment.`, erreur: null };
+  const quand = new Date(rappelLe + "T12:00:00Z").toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+  return { ok: `${prenom ?? "Client"} ajouté. Rappel prévu le ${quand}.`, erreur: null };
 }
 
 // Le client revient avec son code : le garagiste le valide, le compteur avance.

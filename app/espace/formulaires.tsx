@@ -79,9 +79,18 @@ export function FormClient() {
           <input id="montant" name="montant" inputMode="decimal" placeholder="180" className={champ} />
         </div>
       </div>
+      <div>
+        <label htmlFor="date_passage" className="block font-semibold">
+          Date du passage <span className="font-normal text-gris">(laisse vide si c&apos;est aujourd&apos;hui)</span>
+        </label>
+        <input id="date_passage" name="date_passage" type="date" className={champ} />
+        <p className="mt-1 text-sm text-gris">
+          Un client de l&apos;an dernier ? Mets la date de sa facture : s&apos;il est en retard, son rappel part dès demain.
+        </p>
+      </div>
       <label className="flex items-start gap-3">
         <input type="checkbox" name="accord" value="oui" required className="mt-1 h-6 w-6 shrink-0 accent-[#1f3b2d]" />
-        <span>Le client est d&apos;accord pour recevoir un rappel de ma part.</span>
+        <span>Ce client est d&apos;accord pour recevoir un rappel de ma part, ou c&apos;est un de mes clients, qui pourra refuser en répondant STOP.</span>
       </label>
       <Message etat={etat} />
       <button type="submit" disabled={enCours} className={`${bouton} bg-jaune text-vert`}>
