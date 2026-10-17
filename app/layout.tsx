@@ -1,19 +1,19 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo_Black, Source_Sans_3 } from "next/font/google";
+import { Atkinson_Hyperlegible, Bricolage_Grotesque } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import Pied from "@/components/pied";
 import "./globals.css";
 
-const archivo = Archivo_Black({
-  weight: "400",
+const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
-  variable: "--font-archivo",
+  variable: "--font-bricolage",
   display: "swap",
 });
 
-const source = Source_Sans_3({
+const atkinson = Atkinson_Hyperlegible({
+  weight: ["400", "700"],
   subsets: ["latin"],
-  variable: "--font-source",
+  variable: "--font-atkinson",
   display: "swap",
 });
 
@@ -40,12 +40,12 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#1f3b2d",
+  themeColor: "#1b3faf",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={`${archivo.variable} ${source.variable}`}>
+    <html lang="fr" className={`${bricolage.variable} ${atkinson.variable}`}>
       <body>
         {children}
         <Pied />

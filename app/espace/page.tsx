@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Marque from "@/components/marque";
+import Compteur from "@/components/compteur";
 import { redirect } from "next/navigation";
 import { accesCourant } from "@/lib/acces";
 import { supabaseAdmin } from "@/lib/supabase/server";
@@ -29,7 +31,7 @@ export default async function Espace() {
             Pour ajouter tes clients et lancer les rappels, active une formule. Si tu viens de payer, attends une minute
             et recharge la page.
           </p>
-          <Link href="/activer" className="bouton-pouce mt-6 flex items-center justify-center border-[3px] border-encre bg-jaune font-titre text-vert">
+          <Link href="/activer" className="bouton-pouce mt-6 flex items-center justify-center border-2 rounded-2xl border-encre bg-jaune font-titre text-vert">
             Voir les formules
           </Link>
           <form action={seDeconnecter} className="mt-4 text-center">
@@ -73,9 +75,7 @@ export default async function Espace() {
   return (
     <main className="min-h-dvh pb-14">
       <header className="flex items-center justify-between bg-vert px-5 py-3">
-        <p className="font-titre text-lg tracking-wide text-creme">
-          SECOND<span className="text-jaune"> TOUR</span>
-        </p>
+        <Marque clair />
         <form action={seDeconnecter}>
           <button className="min-h-11 text-sm text-creme/80 underline">Déconnexion</button>
         </form>
@@ -83,21 +83,20 @@ export default async function Espace() {
 
       <section className="bg-vert px-5 pb-7 pt-3 text-creme">
         <h1 className="font-titre text-2xl leading-tight">{garage.nom ?? "Bienvenue dans ton espace"}</h1>
-        <p className="mt-4 text-sm font-semibold uppercase tracking-widest text-jaune">Chiffre récupéré</p>
-        <div className="mt-2 border-2 border-jaune p-4">
-          <p className="font-titre text-4xl leading-none text-jaune">{euros(chiffre)}</p>
-          <p className="mt-1 text-sm">générés par les clients revenus grâce aux rappels</p>
+        <div className="mt-5 rounded-[24px] border-2 border-encre bg-jaune p-5 text-encre shadow-[0_6px_0_#0e1a33]">
+          <p className="font-semibold">Chiffre récupéré grâce aux rappels</p>
+          <Compteur valeur={Math.round(chiffre)} className="mt-1 block font-titre text-5xl leading-none" />
         </div>
         <div className="mt-3 grid grid-cols-3 gap-2 text-center">
-          <div className="border-2 border-creme/40 p-2">
+          <div className="rounded-2xl bg-papier/10 p-3">
             <p className="font-titre text-2xl leading-none text-jaune">{nbRappels + nbRelances}</p>
             <p className="mt-1 text-xs leading-tight">messages envoyés</p>
           </div>
-          <div className="border-2 border-creme/40 p-2">
+          <div className="rounded-2xl bg-papier/10 p-3">
             <p className="font-titre text-2xl leading-none text-jaune">{nbRevenus}</p>
             <p className="mt-1 text-xs leading-tight">{nbRevenus > 1 ? "clients revenus" : "client revenu"}</p>
           </div>
-          <div className="border-2 border-creme/40 p-2">
+          <div className="rounded-2xl bg-papier/10 p-3">
             <p className="font-titre text-2xl leading-none text-jaune">{taux === null ? "—" : `${taux} %`}</p>
             <p className="mt-1 text-xs leading-tight">taux de retour</p>
           </div>
@@ -112,7 +111,7 @@ export default async function Espace() {
       <div className="mx-auto max-w-xl space-y-10 px-5 pt-8">
         {!configure ? (
           <section>
-            <p className="text-sm font-semibold uppercase tracking-widest text-gris">Étape 1 sur 2</p>
+            <p className="text-sm font-semibold text-gris">Étape 1 sur 2</p>
             <h2 className="mt-1 font-titre text-xl">Présente ton garage</h2>
             <p className="mt-1 text-gris">Ton nom apparaîtra dans chaque rappel. Ça prend 20 secondes.</p>
             <div className="etiquette mt-4 bg-papier p-5">
@@ -130,7 +129,7 @@ export default async function Espace() {
                 </p>
                 <ul className="mt-4 space-y-3">
                   {smsDus.slice(0, 15).map((e) => (
-                    <li key={`${e.passageId}-${e.type}`} className="border-[3px] border-encre bg-papier p-4">
+                    <li key={`${e.passageId}-${e.type}`} className="border-2 rounded-2xl border-encre bg-papier p-4">
                       <p className="font-semibold">
                         {e.ctx.prenom ?? e.destinataire}{" "}
                         <span className="text-sm font-normal text-gris">
@@ -140,14 +139,14 @@ export default async function Espace() {
                       <div className="mt-3 grid grid-cols-2 gap-2">
                         <a
                           href={lienSms(e.destinataire, e.texte)}
-                          className="flex min-h-12 items-center justify-center border-[3px] border-encre bg-jaune font-titre text-vert"
+                          className="flex min-h-12 items-center justify-center border-2 rounded-2xl border-encre bg-jaune font-titre text-vert"
                         >
                           Envoyer
                         </a>
                         <form action={marquerSmsEnvoye}>
                           <input type="hidden" name="passage_id" value={e.passageId} />
                           <input type="hidden" name="type" value={e.type} />
-                          <button className="flex min-h-12 w-full items-center justify-center border-[3px] border-encre font-semibold">
+                          <button className="flex min-h-12 w-full items-center justify-center border-2 rounded-2xl border-encre font-semibold">
                             C&apos;est envoyé ✓
                           </button>
                         </form>
@@ -159,7 +158,7 @@ export default async function Espace() {
             )}
 
             {emailsEnAttente > 0 && (
-              <p className="border-[3px] border-dashed border-gris/60 p-4 text-sm text-gris">
+              <p className="border-2 rounded-2xl border-dashed border-gris/60 p-4 text-sm text-gris">
                 {emailsEnAttente} rappel{emailsEnAttente > 1 ? "s" : ""} par email partira{emailsEnAttente > 1 ? "ont" : ""} automatiquement lors du prochain envoi, chaque matin vers 9 h.
               </p>
             )}
@@ -172,9 +171,9 @@ export default async function Espace() {
               </div>
               <Link
                 href="/espace/affiche"
-                className="mt-4 flex min-h-14 items-center justify-center border-[3px] border-dashed border-encre px-4 text-center font-semibold"
+                className="mt-4 flex min-h-14 items-center justify-center border-2 rounded-2xl border-dashed border-encre px-4 text-center font-semibold"
               >
-                Ou laisse tes clients s&apos;inscrire seuls : imprime ton affiche QR →
+                Ou laisse tes clients s&apos;inscrire seuls : imprime ton affiche QR
               </Link>
             </section>
 
@@ -189,11 +188,11 @@ export default async function Espace() {
             <section>
               <h2 className="font-titre text-xl">Derniers clients ajoutés</h2>
               {!prochains || prochains.length === 0 ? (
-                <p className="mt-3 border-[3px] border-dashed border-gris/60 p-5 text-gris">
+                <p className="mt-3 border-2 rounded-2xl border-dashed border-gris/60 p-5 text-gris">
                   Personne pour l&apos;instant. Ajoute ton premier client ci-dessus : c&apos;est le début de ton compteur.
                 </p>
               ) : (
-                <ul className="mt-3 divide-y-2 divide-encre/10 border-[3px] border-encre bg-papier">
+                <ul className="mt-3 divide-y-2 divide-encre/10 border-2 rounded-2xl border-encre bg-papier">
                   {prochains.map((p) => {
                     const c = (Array.isArray(p.clients) ? p.clients[0] : p.clients) as
                       | { prenom: string | null; telephone: string | null; email: string | null; desinscrit_le: string | null }
@@ -223,7 +222,7 @@ export default async function Espace() {
             </section>
 
             <section>
-              <details className="border-[3px] border-encre bg-papier">
+              <details className="border-2 rounded-2xl border-encre bg-papier">
                 <summary className="flex min-h-14 cursor-pointer list-none items-center px-4 font-semibold">
                   Modifier mon garage et mon offre
                 </summary>

@@ -75,7 +75,7 @@ export default function Questions() {
           </button>
         )}
         <div
-          className="h-4 flex-1 border-[3px] border-encre bg-papier"
+          className="h-4 flex-1 border-2 rounded-2xl border-encre bg-papier"
           role="progressbar"
           aria-valuemin={1}
           aria-valuemax={3}
@@ -97,7 +97,7 @@ export default function Questions() {
             <button
               type="button"
               onClick={o.choisir}
-              className="bouton-pouce flex w-full items-center border-[3px] border-encre bg-papier px-5 text-left text-lg font-semibold shadow-[4px_4px_0_var(--color-encre)] active:translate-x-[3px] active:translate-y-[3px] active:bg-jaune active:shadow-none"
+              className="bouton-pouce flex w-full items-center border-2 rounded-2xl border-encre bg-papier px-5 text-left text-lg font-semibold shadow-[0_4px_0_var(--color-encre)] transition active:translate-y-[3px] active:bg-jaune active:shadow-none"
             >
               {o.libelle}
             </button>

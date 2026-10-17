@@ -5,7 +5,7 @@ import { seConnecter, type EtatConnexion } from "./actions";
 
 export default function FormulaireConnexion() {
   const [etat, action, enCours] = useActionState<EtatConnexion, FormData>(seConnecter, { erreur: null });
-  const champ = "mt-2 h-14 w-full border-[3px] border-encre bg-white px-4 text-lg outline-none focus:border-vert";
+  const champ = "mt-2 h-14 w-full border-2 rounded-2xl border-encre bg-white px-4 text-lg outline-none focus:border-vert";
 
   return (
     <form action={action} className="mt-5 space-y-4">
@@ -18,7 +18,7 @@ export default function FormulaireConnexion() {
         <input id="mdp" name="mot_de_passe" type="password" required autoComplete="current-password" className={champ} />
       </div>
       {etat.erreur && (
-        <p role="alert" className="border-[3px] border-encre bg-jaune p-3 font-semibold text-vert">
+        <p role="alert" className="border-2 rounded-2xl border-encre bg-jaune p-3 font-semibold text-vert">
           {etat.erreur}
         </p>
       )}

@@ -5,7 +5,7 @@ import { inscrire, type EtatInscription } from "./actions";
 
 export default function FormulaireInscription({ slug, garage, offre }: { slug: string; garage: string; offre: string }) {
   const [etat, action, enCours] = useActionState<EtatInscription, FormData>(inscrire, { ok: false, erreur: null });
-  const champ = "mt-2 h-14 w-full border-[3px] border-encre bg-white px-4 text-lg outline-none focus:border-vert";
+  const champ = "mt-2 h-14 w-full border-2 rounded-2xl border-encre bg-white px-4 text-lg outline-none focus:border-vert";
 
   if (etat.ok) {
     return (
@@ -31,11 +31,11 @@ export default function FormulaireInscription({ slug, garage, offre }: { slug: s
         <input id="prenom" name="prenom" maxLength={40} autoComplete="given-name" className={champ} />
       </div>
       <label className="flex items-start gap-3">
-        <input type="checkbox" name="accord" value="oui" required className="mt-1 h-6 w-6 shrink-0 accent-[#1f3b2d]" />
+        <input type="checkbox" name="accord" value="oui" required className="mt-1 h-6 w-6 shrink-0 accent-[#1b3faf]" />
         <span>J&apos;accepte de recevoir un rappel de {garage} pour mon prochain entretien. Je peux me désinscrire à tout moment.</span>
       </label>
       {etat.erreur && (
-        <p role="alert" className="border-[3px] border-encre bg-jaune p-3 font-semibold text-vert">{etat.erreur}</p>
+        <p role="alert" className="border-2 rounded-2xl border-encre bg-jaune p-3 font-semibold text-vert">{etat.erreur}</p>
       )}
       <button
         type="submit"

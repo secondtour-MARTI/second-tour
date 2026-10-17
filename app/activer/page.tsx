@@ -1,3 +1,4 @@
+import Marque from "@/components/marque";
 import type { Metadata } from "next";
 import { calculer, euros, lireReponses } from "@/lib/diagnostic";
 import { GARANTIE_JOURS, PLANS } from "@/lib/plans";
@@ -39,9 +40,7 @@ export default async function Activer({ searchParams }: Props) {
   return (
     <main className="min-h-dvh pb-12">
       <header className="bg-vert px-5 py-3">
-        <p className="font-titre text-lg tracking-wide text-creme">
-          SECOND<span className="text-jaune"> TOUR</span>
-        </p>
+        <Marque clair />
       </header>
 
       {/* 1. Ce qui a été fait pour lui + garantie visible sans défiler */}
@@ -60,7 +59,7 @@ export default async function Activer({ searchParams }: Props) {
       {/* 2. Ce que ça rapporte, comparé au prix */}
       {r && (
         <section className="px-5 pt-6">
-          <div className="mx-auto grid max-w-xl grid-cols-2 border-[3px] border-encre bg-papier">
+          <div className="mx-auto grid max-w-xl grid-cols-2 border-2 rounded-2xl border-encre bg-papier">
             <div className="border-r-[3px] border-encre p-4">
               <p className="text-sm text-gris">Ce que ça peut te rapporter</p>
               <p className="mt-1 font-titre text-2xl leading-tight text-vert">{euros(r.gainAnnuel)}</p>
@@ -104,7 +103,7 @@ export default async function Activer({ searchParams }: Props) {
           <h2 className="font-titre text-xl">Questions fréquentes</h2>
           <div className="mt-4 space-y-3">
             {faq.map((f) => (
-              <details key={f.q} className="group border-[3px] border-encre bg-papier">
+              <details key={f.q} className="group border-2 rounded-2xl border-encre bg-papier">
                 <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 font-semibold">
                   {f.q}
                   <span aria-hidden="true" className="font-titre text-xl transition-transform group-open:rotate-45">+</span>

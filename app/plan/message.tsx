@@ -33,19 +33,19 @@ export default function MessageRappel({ prestation, depuis }: Props) {
         maxLength={60}
         onChange={(e) => setGarage(e.target.value)}
         placeholder="Ex. : Garage du Centre"
-        className="mt-2 h-14 w-full border-[3px] border-encre bg-papier px-4 text-lg outline-none focus:border-vert"
+        className="mt-2 h-14 w-full border-2 rounded-2xl border-encre bg-papier px-4 text-lg outline-none focus:border-vert"
         autoComplete="organization"
       />
 
       <div className="etiquette mt-4 bg-papier p-4">
-        <p className="text-xs font-semibold uppercase tracking-widest text-gris">Aperçu du SMS</p>
+        <p className="text-xs font-semibold text-gris">Aperçu du SMS</p>
         <p className="mt-2 whitespace-pre-line">{texte}</p>
       </div>
 
       <button
         type="button"
         onClick={copier}
-        className="bouton-pouce mt-4 flex w-full items-center justify-center border-[3px] border-encre bg-jaune font-titre text-vert active:translate-x-[2px] active:translate-y-[2px]"
+        className="bouton-pouce mt-4 flex w-full items-center justify-center border-2 rounded-2xl border-encre bg-jaune font-titre text-vert"
       >
         {copie ? "Copié ✓" : "Copier le message"}
       </button>

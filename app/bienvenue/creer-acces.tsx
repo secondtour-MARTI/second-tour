@@ -27,12 +27,12 @@ export default function CreerAcces({ sessionId, email }: { sessionId: string; em
           minLength={8}
           maxLength={72}
           autoComplete="new-password"
-          className="mt-2 h-14 w-full border-[3px] border-encre bg-white px-4 text-lg outline-none focus:border-vert"
+          className="mt-2 h-14 w-full border-2 rounded-2xl border-encre bg-white px-4 text-lg outline-none focus:border-vert"
         />
         <p className="mt-1 text-sm text-gris">8 caractères minimum.</p>
       </div>
       {etat.erreur && (
-        <p role="alert" className="border-[3px] border-encre bg-jaune p-3 font-semibold text-vert">
+        <p role="alert" className="border-2 rounded-2xl border-encre bg-jaune p-3 font-semibold text-vert">
           {etat.erreur}
         </p>
       )}

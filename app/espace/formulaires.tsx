@@ -5,20 +5,20 @@ import { ajouterClient, enregistrerGarage, validerOffre, type Etat } from "./act
 import { METIERS, type MetierId } from "@/lib/diagnostic";
 
 const initial: Etat = { ok: null, erreur: null };
-const champ = "mt-2 h-14 w-full border-[3px] border-encre bg-white px-4 text-lg outline-none focus:border-vert";
+const champ = "mt-2 h-14 w-full border-2 rounded-2xl border-encre bg-white px-4 text-lg outline-none focus:border-vert";
 const bouton =
-  "bouton-pouce etiquette flex w-full items-center justify-center px-6 font-titre text-lg disabled:opacity-60 active:translate-x-[3px] active:translate-y-[3px] active:shadow-none";
+  "bouton-pouce etiquette flex w-full items-center justify-center px-6 font-titre text-lg disabled:opacity-60";
 
 function Message({ etat }: { etat: Etat }) {
   if (etat.erreur)
     return (
-      <p role="alert" className="border-[3px] border-encre bg-jaune p-3 font-semibold text-vert">
+      <p role="alert" className="border-2 rounded-2xl border-encre bg-jaune p-3 font-semibold text-vert">
         {etat.erreur}
       </p>
     );
   if (etat.ok)
     return (
-      <p role="status" className="border-[3px] border-vert bg-papier p-3 font-semibold text-vert">
+      <p role="status" className="border-2 rounded-2xl border-vert bg-papier p-3 font-semibold text-vert">
         ✓ {etat.ok}
       </p>
     );
@@ -89,7 +89,7 @@ export function FormClient() {
         </p>
       </div>
       <label className="flex items-start gap-3">
-        <input type="checkbox" name="accord" value="oui" required className="mt-1 h-6 w-6 shrink-0 accent-[#1f3b2d]" />
+        <input type="checkbox" name="accord" value="oui" required className="mt-1 h-6 w-6 shrink-0 accent-[#1b3faf]" />
         <span>Ce client est d&apos;accord pour recevoir un rappel de ma part, ou c&apos;est un de mes clients, qui pourra refuser en répondant STOP.</span>
       </label>
       <Message etat={etat} />
@@ -120,7 +120,7 @@ export function FormOffre() {
             autoCapitalize="characters"
             autoComplete="off"
             placeholder="K7MP2Q"
-            className={`${champ} font-mono uppercase tracking-widest`}
+            className={`${champ} font-mono`}
           />
         </div>
         <div>

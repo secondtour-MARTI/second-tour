@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Marque from "@/components/marque";
 import { redirect } from "next/navigation";
 import { accesCourant } from "@/lib/acces";
 import { EMAIL_CONTACT } from "@/lib/config";
@@ -14,9 +15,7 @@ export default async function Connexion() {
   return (
     <main className="flex min-h-dvh flex-col justify-center px-5 py-10">
       <div className="etiquette mx-auto w-full max-w-md bg-papier p-6">
-        <p className="font-titre text-lg tracking-wide">
-          SECOND<span className="text-vert"> TOUR</span>
-        </p>
+        <Marque />
         <h1 className="mt-4 font-titre text-3xl leading-tight text-vert">Ton espace garage</h1>
         <FormulaireConnexion />
         <p className="mt-5 text-sm text-gris">

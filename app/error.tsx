@@ -11,7 +11,7 @@ export default function Erreur({ reset }: { error: Error; reset: () => void }) {
         <button
           type="button"
           onClick={reset}
-          className="bouton-pouce mt-6 flex w-full items-center justify-center border-[3px] border-encre bg-jaune font-titre text-vert"
+          className="bouton-pouce mt-6 flex w-full items-center justify-center border-2 rounded-2xl border-encre bg-jaune font-titre text-vert"
         >
           Réessayer
         </button>

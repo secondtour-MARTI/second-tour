@@ -81,8 +81,8 @@ export default function Paiement({ params }: Props) {
               type="button"
               onClick={() => choisir(id)}
               aria-pressed={actif}
-              className={`relative block w-full border-[3px] border-encre p-4 text-left transition ${
-                actif ? "bg-papier shadow-[5px_5px_0_var(--color-encre)]" : "bg-creme"
+              className={`relative block w-full border-2 rounded-2xl border-encre p-4 text-left transition ${
+                actif ? "bg-papier shadow-[0_6px_0_var(--color-vert)] border-vert -translate-y-1" : "bg-papier/60"
               } ${id === "pro" ? "mt-5" : ""}`}
             >
               {id === "pro" && (
@@ -94,7 +94,7 @@ export default function Paiement({ params }: Props) {
                 <span className="flex items-center gap-3">
                   <span
                     aria-hidden="true"
-                    className={`h-6 w-6 shrink-0 rounded-full border-[3px] border-encre ${actif ? "bg-vert ring-2 ring-inset ring-papier" : ""}`}
+                    className={`h-6 w-6 shrink-0 rounded-full border-2 border-encre ${actif ? "bg-vert ring-2 ring-inset ring-papier" : ""}`}
                   />
                   <span className="font-titre text-lg">{p.nom}</span>
                 </span>
@@ -119,11 +119,11 @@ export default function Paiement({ params }: Props) {
           {PLANS[plan].nom} — {PLANS[plan].prix} €{PLANS[plan].unite}. Sans engagement, résiliable à tout moment.
         </p>
         {!stripePromise ? (
-          <p className="border-[3px] border-encre bg-papier p-4">
+          <p className="border-2 rounded-2xl border-encre bg-papier p-4">
             Le paiement n&apos;est pas encore configuré. Reviens dans quelques minutes.
           </p>
         ) : (
-          <div className="relative min-h-[420px] border-[3px] border-encre bg-white p-1">
+          <div className="relative min-h-[420px] border-2 rounded-2xl border-encre bg-white p-1">
             {chargement && !erreur && (
               <p className="absolute inset-x-0 top-10 text-center text-gris">Chargement du paiement sécurisé…</p>
             )}
@@ -131,7 +131,7 @@ export default function Paiement({ params }: Props) {
           </div>
         )}
         {erreur && (
-          <p role="alert" className="mt-3 border-[3px] border-encre bg-jaune p-3 font-semibold text-vert">
+          <p role="alert" className="mt-3 border-2 rounded-2xl border-encre bg-jaune p-3 font-semibold text-vert">
             {erreur}
           </p>
         )}

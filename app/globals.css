@@ -1,15 +1,18 @@
 @import "tailwindcss";
 
+/* Palette « atelier » : bleu de travail, ambre du voyant d'entretien, voyants vert et rouge. */
 @theme {
-  --color-vert: #1f3b2d;
-  --color-vert-clair: #2c5240;
-  --color-jaune: #f2c230;
-  --color-creme: #f6f1e7;
-  --color-papier: #fffcf5;
-  --color-encre: #22231f;
-  --color-gris: #5f5e57;
-  --font-titre: var(--font-archivo), "Arial Black", sans-serif;
-  --font-texte: var(--font-source), system-ui, sans-serif;
+  --color-vert: #1b3faf;        /* bleu de travail (nom conservé pour compatibilité) */
+  --color-vert-clair: #2f5bd8;
+  --color-jaune: #ffb21a;       /* ambre, voyant d'entretien */
+  --color-creme: #eef2f8;       /* fond */
+  --color-papier: #ffffff;
+  --color-encre: #0e1a33;
+  --color-gris: #55617a;
+  --color-voyant: #0d8a50;      /* gains */
+  --color-alerte: #d92d20;      /* pertes */
+  --font-titre: var(--font-bricolage), "Arial Black", sans-serif;
+  --font-texte: var(--font-atkinson), system-ui, sans-serif;
 }
 
 html {
@@ -25,17 +28,77 @@ body {
   overflow-x: hidden;
 }
 
-/* Bordure façon étiquette d'atelier */
+.font-titre {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* Bloc « autocollant » : contour encre et ombre portée pleine. */
 .etiquette {
-  border: 3px solid var(--color-encre);
-  box-shadow: 5px 5px 0 var(--color-encre);
+  border: 2px solid var(--color-encre);
+  border-radius: 24px;
+  box-shadow: 0 6px 0 var(--color-encre);
 }
 
 .bouton-pouce {
   min-height: 56px;
+  border-radius: 16px;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.bouton-pouce.etiquette {
+  border-radius: 16px;
+  box-shadow: 0 5px 0 var(--color-encre);
+}
+.bouton-pouce:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 var(--color-encre);
+}
+@media (hover: hover) {
+  .bouton-pouce:hover {
+    filter: brightness(1.06);
+  }
+}
+
+input,
+select,
+textarea {
+  border-radius: 14px;
 }
 
 :focus-visible {
   outline: 3px solid var(--color-jaune);
   outline-offset: 3px;
+}
+
+/* Animation unique : la vignette de vidange se remplit au chargement. */
+@keyframes tampon {
+  0% { opacity: 0; transform: scale(1.6) rotate(-14deg); }
+  60% { opacity: 1; transform: scale(0.94) rotate(-8deg); }
+  100% { opacity: 1; transform: scale(1) rotate(-8deg); }
+}
+@keyframes ecrire {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes posee {
+  from { opacity: 0; transform: translateY(24px) rotate(6deg); }
+  to { opacity: 1; transform: translateY(0) rotate(3deg); }
+}
+@keyframes clignote {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+.anim-posee { animation: posee 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.2) both; }
+.anim-ecrire { animation: ecrire 0.7s steps(18) 0.7s both; }
+.anim-ecrire-2 { animation: ecrire 0.6s steps(14) 1.4s both; }
+.anim-tampon { animation: tampon 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.3) 2.1s both; }
+.anim-voyant { animation: clignote 1.4s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

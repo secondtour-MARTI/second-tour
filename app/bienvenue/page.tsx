@@ -33,7 +33,7 @@ export default async function Bienvenue({ searchParams }: Props) {
             Aucun montant n&apos;a été prélevé. Ça arrive : carte refusée, connexion coupée, plafond atteint. Tu peux
             réessayer avec la même carte ou une autre.
           </p>
-          <Link href="/activer" className="bouton-pouce mt-6 flex items-center justify-center border-[3px] border-encre bg-jaune font-titre text-vert">
+          <Link href="/activer" className="bouton-pouce mt-6 flex items-center justify-center border-2 rounded-2xl border-encre bg-jaune font-titre text-vert">
             Réessayer le paiement
           </Link>
         </div>

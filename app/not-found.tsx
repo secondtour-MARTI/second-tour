@@ -10,7 +10,7 @@ export default function PageIntrouvable() {
         </p>
         <Link
           href="/"
-          className="bouton-pouce mt-6 flex items-center justify-center border-[3px] border-encre bg-jaune font-titre text-vert"
+          className="bouton-pouce mt-6 flex items-center justify-center border-2 rounded-2xl border-encre bg-jaune font-titre text-vert"
         >
           Revenir à l&apos;accueil
         </Link>
