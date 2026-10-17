@@ -120,3 +120,19 @@ export async function validerOffre(_e: Etat, form: FormData): Promise<Etat> {
   revalidatePath("/espace");
   return { ok: "Offre validée. Le client est compté comme revenu.", erreur: null };
 }
+
+// Le garagiste a envoyé le SMS depuis son téléphone : on le note comme parti.
+export async function marquerSmsEnvoye(form: FormData) {
+  let garage;
+  try {
+    garage = await garageActif();
+  } catch {
+    return;
+  }
+  const passageId = String(form.get("passage_id") ?? "");
+  const type = form.get("type") === "relance" ? "relance" : "rappel";
+  if (!/^[0-9a-f-]{36}$/i.test(passageId)) return;
+  const { marquerEnvoi } = await import("@/lib/rappels");
+  await marquerEnvoi(passageId, type, "sms_manuel", garage.id);
+  revalidatePath("/espace");
+}
